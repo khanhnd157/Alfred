@@ -1,5 +1,5 @@
 
-import { createAzure } from "@ai-sdk/azure";
+import { createOpenAI } from '@ai-sdk/openai';
 import {
   streamText,
   UIMessage,
@@ -12,11 +12,12 @@ import path from "path";
 import { getTools } from "@/lib/tools/index";
 
 // Configure Azure OpenAI
-export const azure = createAzure({
+export const azure = createOpenAI({
   apiKey: process.env.AZURE_OPENAI_API_KEY!,
-  apiVersion: process.env.AZURE_OPENAI_API_VERSION!,
   baseURL: process.env.AZURE_OPENAI_BASE_URL!,
-  useDeploymentBasedUrls: true,
+  headers: {
+    "Authorization": `Bearer ${process.env.AZURE_OPENAI_API_KEY!}`, // ensures proper auth
+  },
 });
 
 const maxSteps = 25;
